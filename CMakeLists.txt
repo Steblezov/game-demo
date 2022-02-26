@@ -25,7 +25,9 @@ endif()
 
 set_output_directories(${CMAKE_BINARY_DIR}/out)
 set(HEADERS
-   
+   include/constants.h
+   include/map.cpp
+   include/map.h
 )
 
 set(SOURCES
@@ -64,6 +66,9 @@ target_link_libraries(demo sfml-graphics)
 target_link_libraries(demo sfml-window)
 target_link_libraries(demo sfml-system)
 target_include_directories( demo PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/third_party/SFML/include )
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/map/block.png
+     DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
 
 
 
