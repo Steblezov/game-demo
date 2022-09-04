@@ -5,45 +5,6 @@
 #include "attack.h"
 #include "enemy.h"
 
-class AttackEnemy : public sf::Drawable{
-public:
-    bool load(const std::string& tex) {
-        if (!attack_tex_.loadFromFile(tex))
-            return false;
-        attack_pos_.x = 16;
-        attack_pos_.y = 13;
-    }
-
-    void UpdatePhysics(float shot_enemy_timer) {
-        if (shot_enemy_timer >= 3) {
-            --attack_pos_.x;
-        }
-        else {
-            attack_pos_.x = 16;
-            attack_pos_.y = 13;
-        }
-    }
-
-    const sf::Vector2i& Attack_Pos()const {
-        return attack_pos_;
-    }
-
-
-private:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-        sf::Sprite attack(attack_tex_);
-
-        attack.setPosition(attack_pos_.x * sizeS, attack_pos_.y * sizeS);
-        attack.setScale(sf::Vector2f(-1.f, 1.f));
-
-        target.draw(attack);
-    }
-    sf::Vector2i attack_pos_;
-    sf::Texture attack_tex_;
-    int dir_;
-};
-
- 
 int main() {
     sf::RenderWindow window(sf::VideoMode(640, 480), "demo");
 
@@ -58,17 +19,13 @@ int main() {
     if (!hero.load("hero.png"))
         return -1;
 
-    Attack attack;
-    if (!attack.load("attack.png"))
-        return -1;
-
+    Attack attack("attack.png", sf::Vector2i(10, 13), /*moving_right=*/true);
+   
     Enemy enemy;
     if (!enemy.load("enemy.png"))
         return -1;
 
-    AttackEnemy attack_enemy;
-    if (!attack_enemy.load("attack_enemy.png"))
-        return -1;
+    Attack attack_enemy("attack_enemy.png", sf::Vector2i(16, 13), /*moving_right=*/false);
 
     sf::Clock clock;
     float timer = 0, delay = 0.1;
@@ -108,29 +65,28 @@ int main() {
                 }
                 if (event.key.code == sf::Keyboard::E) {
                     dir = 1;
-                    attack.SetDir(dir);
                 }
-
             }
         }
         window.draw(map);
         if (timer > delay) {
-            if (players_move == true)
-                attack.UpdatePhysics();
-            else
-                attack_enemy.UpdatePhysics(shot_enemy_timer);
+            if (players_move == true) {
+                if (dir == 1)
+                    attack.UpdatePhysics();
+            }
+            else if(shot_enemy_timer >= 3)
+                attack_enemy.UpdatePhysics();
             timer = 0;
         }
         if (attack.Attack_Pos().x >= 19 ) {
             dir = 0;
-            attack.SetDir(dir);
-            attack.UpdatePhysics();
+            attack = Attack("attack.png", sf::Vector2i(10, 13), /*moving_right=*/true);;
             --health_enemy;
             players_move = false;
         }
         if (attack_enemy.Attack_Pos().x <= 12) {
             shot_enemy_timer = 0;
-            attack_enemy.UpdatePhysics(shot_enemy_timer);
+            attack_enemy.Reset();
             players_move = true;
            --health_hero;
         }

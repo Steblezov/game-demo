@@ -5,17 +5,18 @@
 
 class Attack : public sf::Drawable {
 public:
-    bool load(const std::string& tex);
+    Attack(const std::string& tex, const sf::Vector2i& initial_attack_pos, bool moving_right);
 
     void UpdatePhysics();
 
-    const sf::Vector2i& Attack_Pos()const;
+    void Reset();
 
-    void SetDir(int dir);
+    const sf::Vector2i& Attack_Pos()const;
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    sf::Vector2i initial_attack_pos_;
     sf::Vector2i attack_pos_;
     sf::Texture attack_tex_;
-    int dir_;
+    bool moving_right_;
 };

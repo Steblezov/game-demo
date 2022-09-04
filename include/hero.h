@@ -4,10 +4,9 @@
 #include "constants.h"
 class Hero : public sf::Drawable {
 public:
-    bool load(const std::string& tex);
+    bool load(const std::string&tex);
 
     const sf::Vector2i& Hero_Pos()const;
-
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const ;

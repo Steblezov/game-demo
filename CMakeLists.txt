@@ -30,6 +30,8 @@ set(HEADERS
    include/hero.h
    include/attack.h
    include/enemy.h
+    
+
 )
 
 set(SOURCES
@@ -38,6 +40,7 @@ set(SOURCES
     src/map.cpp
     src/attack.cpp
     src/enemy.cpp
+    
 )
 
 add_executable(demo ${SOURCES} ${HEADERS})
@@ -77,12 +80,17 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/map/map.png
      DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/hero/hero.png
      DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/hero/health.png
+     DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/hero/health_border.png
+     DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/hero/attack.png
      DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/enemy/enemy.png
      DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/enemy/attack_enemy.png
      DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/)
+
 
 
 
